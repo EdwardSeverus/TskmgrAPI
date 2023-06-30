@@ -1,0 +1,86 @@
+# Task Manager API Documentation
+
+The Task Manager API is a backend application that allows users to manage their tasks. Users can sign up, log in, view, create, and delete tasks. This API is built using Node.js, Express.js, and MongoDB.
+
+## Endpoints
+
+### 1. Sign Up
+
+- Endpoint: `POST /signup`
+- Description: Allows users to sign up with their email and password.
+- Request Body:
+  - `email` (String, required): The email of the user.
+  - `password` (String, required): The password of the user.
+- Response:
+  - `201 Created`: User signed up successfully.
+  - `400 Bad Request`: If the email already exists.
+  - `500 Internal Server Error`: If an error occurred on the server.
+
+### 2. Log In
+
+- Endpoint: `POST /login`
+- Description: Allows users to log in with their email and password.
+- Request Body:
+  - `email` (String, required): The email of the user.
+  - `password` (String, required): The password of the user.
+- Response:
+  - `200 OK`: User logged in successfully. Returns a JWT token.
+  - `401 Unauthorized`: If the credentials are invalid.
+  - `500 Internal Server Error`: If an error occurred on the server.
+
+### 3. Get Tasks
+
+- Endpoint: `GET /tasks`
+- Description: Fetches all tasks for the authenticated user.
+- Authorization: Requires a valid JWT token in the request headers.
+- Response:
+  - `200 OK`: Returns an array of tasks.
+  - `401 Unauthorized`: If the JWT token is missing or invalid.
+  - `500 Internal Server Error`: If an error occurred on the server.
+
+### 4. Create Task
+
+- Endpoint: `POST /tasks`
+- Description: Allows users to create a new task.
+- Authorization: Requires a valid JWT token in the request headers.
+- Request Body:
+  - `title` (String, required): The title of the task.
+  - `description` (String): The description of the task.
+  - `dueDate` (Date): The due date of the task.
+  - `status` (String, enum ['pending', 'completed']): The status of the task (default is 'pending').
+  - `priority` (String, enum ['low', 'medium', 'high']): The priority of the task (default is 'medium').
+- Response:
+  - `201 Created`: Task created successfully.
+  - `401 Unauthorized`: If the JWT token is missing or invalid.
+  - `500 Internal Server Error`: If an error occurred on the server.
+
+### 5. Delete Task
+
+- Endpoint: `DELETE /tasks/:id`
+- Description: Allows users to delete a task by its ID.
+- Authorization: Requires a valid JWT token in the request headers.
+- Request Parameters:
+  - `id` (String, required): The ID of the task to delete.
+- Response:
+  - `200 OK`: Task deleted successfully.
+  - `401 Unauthorized`: If the JWT token is missing or invalid.
+  - `404 Not Found`: If the task with the specified ID is not found.
+  - `500 Internal Server Error`: If an error occurred on the server.
+
+## Error Handling
+
+The API provides appropriate error messages and status codes for various scenarios. In case of any unexpected errors, the server returns a `500 Internal Server Error`.
+
+## Authentication and Authorization
+
+The API uses JSON Web Tokens (JWT) for user authentication. To access protected endpoints (e.g., `/tasks` and `/tasks/:id`), users must include a valid JWT token
+
+ in the `Authorization` header with the `Bearer` scheme.
+
+## Security
+
+The API follows best practices to ensure security. It securely stores user passwords using bcrypt for hashing. The use of JWT tokens provides stateless authentication and helps prevent common attacks like CSRF.
+
+## Conclusion
+
+The Task Manager API provides a robust backend solution for managing tasks. It offers user authentication, task management functionalities, and implements security measures to protect user data. Feel free to explore and integrate this API into your frontend application.
